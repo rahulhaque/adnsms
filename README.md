@@ -4,6 +4,7 @@ A simple php wrapper for adnsms message sending api. Supports Laravel.
 ## Usage
 - Clone the repository.
 - Require the class and create instance to access its functions.
+- Or install with `composer require adnsms/adnsms`
 
 ## Example
 A simple single sms send example.
@@ -28,6 +29,7 @@ print_r($result);
 ```
 
 ## Laravel
+- Install with `composer require adnsms/adnsms`
 ```php
 <?php
 
