@@ -1,0 +1,21 @@
+{
+  "name": "adnsms/adnsms",
+  "type": "library",
+  "description": "A php wrapper for adnsms api.",
+  "keywords": ["php", "laravel", "adnsms", "sms", "api-wrapper"],
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Rahul Haque",
+      "email": "rahulhaque07@gmail.com"
+    }
+  ],
+  "require": {
+    "php": ">=5.6"
+  },
+  "autoload": {
+    "psr-4": {
+      "AdnSms\\": "src/"
+    }
+  }
+}
