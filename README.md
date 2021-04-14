@@ -1,5 +1,5 @@
 # AdnSms Sms Api Wrapper for PHP / Laravel
-A simple php wrapper for adnsms message sending api. Supports Laravel.
+A lightweight php wrapper for adnsms message sending api. Supports Laravel. While this pacakge can be used with Laravel, there is also a package specific to Laravel with more features, queue support that can be found here - [ADN SMS Laravel](https://github.com/rahulhaque/adn-sms-laravel)
 
 ## Usage
 - Clone the repository.
