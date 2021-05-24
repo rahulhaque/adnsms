@@ -12,12 +12,12 @@ abstract class AbstractAdnSms
     protected $campaignTitle;
     protected $apiUrl;
     protected $requestType;
-    protected $messageType = 'Text';
-    protected static $requestTypes = [
-        'single_sms', 'otp', 'campaign', 'quick_campaign'
+    protected $messageType = 'TEXT';
+    private $allowedRequestTypes = [
+        'SINGLE_SMS', 'OTP', 'GENERAL_CAMPAIGN', 'MULTIBODY_CAMPAIGN'
     ];
-    protected static $messageTypes = [
-        'text', 'unicode'
+    private $allowedMessageTypes = [
+        'TEXT', 'UNICODE'
     ];
 
     public function getConfig()
@@ -51,14 +51,15 @@ abstract class AbstractAdnSms
     }
 
     /**
-     * mandatory
+     * Required
+     *
      * @param $requestType
      * @throws \Exception
      */
     protected function setRequestType($requestType)
     {
-        if (!in_array(strtolower($requestType), self::$requestTypes)) {
-            throw new \Exception('Request Type is not appropriate.');
+        if (!in_array(strtoupper($requestType), $this->allowedRequestTypes)) {
+            throw new \Exception('Invalid request type. Must be one of ' . implode(', ', $this->allowedRequestTypes) . '.');
         }
 
         $this->requestType = $requestType;
@@ -90,15 +91,16 @@ abstract class AbstractAdnSms
      */
     protected function setMessageType($messageType)
     {
-        if (!in_array(strtolower($messageType), self::$messageTypes)) {
-            throw new \Exception('Message Type is not appropriate.');
+        if (!in_array(strtoupper($messageType), $this->allowedMessageTypes)) {
+            throw new \Exception('Invalid message type. Must be one of ' . implode(', ', $this->allowedMessageTypes) . '.');
         }
 
         $this->messageType = $messageType;
     }
 
     /**
-     * mandatory
+     * Required
+     *
      * @return string
      */
     protected function getMessageType()

@@ -62,12 +62,20 @@ class AdnSms extends AbstractAdnSms
             'message_body' => $this->getMessageBody()
         ];
 
-        if ($this->getRequestType() == 'campaign') {
-            if ($campaignTitle == null) {
+        if (
+            $this->getRequestType() == 'GENERAL_CAMPAIGN' ||
+            $this->getRequestType() == 'MULTIBODY_CAMPAIGN'
+        ) {
+            if (empty($campaignTitle)) {
                 throw new \Exception('Campaign Title is required for bulk campaign');
             }
             $data['campaign_title'] = $this->getCampaignTitle();
+
+            if ($this->getRequestType() == 'GENERAL_CAMPAIGN' && $this->getMessageType() == 'TEXT') {
+                $data['isPromotional'] = true;
+            }
         }
+
         return $this->callToApi($data);
     }
 
@@ -84,7 +92,7 @@ class AdnSms extends AbstractAdnSms
     public function sendBulkSms($message, $recipient, $messageType, $campaignTitle)
     {
         $this->setApiUrl($this->config['apiUrl']['send_sms']);
-        $this->setRequestType('campaign');
+        $this->setRequestType('GENERAL_CAMPAIGN');
         $this->setMessageBody($message);
         $this->setRecipient($recipient);
         $this->setMessageType($messageType);
@@ -99,10 +107,14 @@ class AdnSms extends AbstractAdnSms
             'message_body' => $this->getMessageBody()
         ];
 
-        if ($campaignTitle == null) {
-            throw new \Exception('Campaign Title is required for bulk campaign');
+        if (empty($campaignTitle)) {
+            throw new \Exception('Campaign title is required for GENERAL_CAMPAIGN');
         }
         $data['campaign_title'] = $this->getCampaignTitle();
+
+        if ($this->getMessageType() == 'TEXT') {
+            $data['isPromotional'] = true;
+        }
 
         return $this->callToApi($data);
     }
@@ -119,7 +131,7 @@ class AdnSms extends AbstractAdnSms
     public function quickCampaign($smsArray, $messageType, $campaignTitle = null)
     {
         $this->setApiUrl($this->config['apiUrl']['send_sms']);
-        $this->setRequestType('quick_campaign');
+        $this->setRequestType('MULTIBODY_CAMPAIGN');
         $this->setMessageType($messageType);
         $this->setCampaignTitle($campaignTitle);
 
